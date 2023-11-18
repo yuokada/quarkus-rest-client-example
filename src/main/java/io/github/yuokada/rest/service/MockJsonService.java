@@ -1,8 +1,5 @@
 package io.github.yuokada.rest.service;
 
-import io.github.yuokada.rest.model.Game;
-import io.github.yuokada.rest.model.Team;
-
 import jakarta.ws.rs.Consumes;
 import jakarta.ws.rs.GET;
 import jakarta.ws.rs.Path;

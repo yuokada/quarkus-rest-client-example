@@ -1,4 +1,4 @@
-package io.github.yuokada.rest.model;
+package io.github.yuokada.rest.service;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 

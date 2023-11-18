@@ -1,7 +1,5 @@
 package io.github.yuokada.rest.service;
 
-import io.github.yuokada.rest.model.Game;
-import io.github.yuokada.rest.model.Team;
 import io.quarkus.test.junit.QuarkusTest;
 import java.util.List;
 import org.eclipse.microprofile.rest.client.inject.RestClient;
