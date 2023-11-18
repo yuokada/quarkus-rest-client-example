@@ -3,6 +3,7 @@ package io.github.yuokada.rest.service;
 import io.github.yuokada.rest.model.Game;
 import io.github.yuokada.rest.model.Team;
 
+import jakarta.ws.rs.Consumes;
 import jakarta.ws.rs.GET;
 import jakarta.ws.rs.Path;
 import jakarta.ws.rs.PathParam;
@@ -15,6 +16,7 @@ import java.util.List;
 
 @Path("/")
 @RegisterRestClient(configKey = "my-json-server")
+@Consumes("application/json")
 public interface MockJsonService {
 
     @GET

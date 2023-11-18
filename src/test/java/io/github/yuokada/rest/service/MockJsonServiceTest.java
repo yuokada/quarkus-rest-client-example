@@ -1,8 +1,7 @@
-package io.github.yuokada.rest;
+package io.github.yuokada.rest.service;
 
 import io.github.yuokada.rest.model.Game;
 import io.github.yuokada.rest.model.Team;
-import io.github.yuokada.rest.service.MockJsonService;
 import io.quarkus.test.junit.QuarkusTest;
 import java.util.List;
 import org.eclipse.microprofile.rest.client.inject.RestClient;
@@ -16,14 +15,14 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 @QuarkusTest
-public class ExampleResourceTest {
+public class MockJsonServiceTest {
 
     // @InjectMock
     @RestClient
     MockJsonService mockJsonService;
 
 
-    private static final Logger LOG = Logger.getLogger(ExampleResourceTest.class);
+    private static final Logger LOG = Logger.getLogger(MockJsonServiceTest.class);
 
     @Test
     public void testHelloEndpoint() {
