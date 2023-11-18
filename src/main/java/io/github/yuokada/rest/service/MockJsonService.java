@@ -17,6 +17,7 @@ import java.util.List;
 @Path("/")
 @RegisterRestClient(configKey = "my-json-server")
 @Consumes("application/json")
+@Produces(MediaType.APPLICATION_JSON)
 public interface MockJsonService {
 
     @GET
@@ -33,6 +34,5 @@ public interface MockJsonService {
 
     @GET
     @Path("/games")
-    @Produces(MediaType.APPLICATION_JSON)
     List<Game> listGames();
 }
