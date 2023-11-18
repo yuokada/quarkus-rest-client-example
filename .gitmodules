@@ -1,0 +1,3 @@
+[submodule "bms-json-server"]
+	path = bms-json-server
+	url = https://github.com/yuokada/bms-json-server.git
