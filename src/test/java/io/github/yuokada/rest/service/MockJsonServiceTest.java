@@ -23,15 +23,6 @@ public class MockJsonServiceTest {
     private static final Logger LOG = Logger.getLogger(MockJsonServiceTest.class);
 
     @Test
-    public void testHelloEndpoint() {
-        given()
-            .when().get("/hello")
-            .then()
-            .statusCode(200)
-            .body(is("Hello from RESTEasy Reactive"));
-    }
-
-    @Test
     public void testClient() {
         Team teams = mockJsonService.getTeamById(1);
         LOG.info(teams);
