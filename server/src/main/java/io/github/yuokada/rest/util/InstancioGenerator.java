@@ -1,9 +1,11 @@
 package io.github.yuokada.rest.util;
 
 import static org.instancio.Select.field;
+import static org.instancio.Select.root;
 
 import io.github.yuokada.rest.service.Player;
 import io.github.yuokada.rest.service.Team;
+import io.github.yuokada.rest.service.TeamRecord;
 import java.util.List;
 import java.util.Random;
 import java.util.stream.Collectors;
@@ -67,6 +69,24 @@ public class InstancioGenerator {
     private static String backNumberGenerator() {
         int n = gRandom.nextInt(128);
         return String.format("%d", n);
+    }
+
+    // Methods for TeamRecord
+    public static List<TeamRecord> getTeamRecordList(Integer size) {
+        List<TeamRecord> teams = Instancio.ofList(TeamRecord.class)
+            .size(size)
+            .generate(field(TeamRecord::id), gen -> gen.ints().range(1, 128))
+            .generate(field(TeamRecord::regulationAtBats), gen -> gen.doubles().range(0.1, 2d))
+            .create();
+        return teams;
+    }
+    public static TeamRecord getTeamRecord(Integer teamId) {
+        return Instancio.of(TeamRecord.class)
+             .set(field("id"), teamId)
+             .generate(field(TeamRecord::regulationAtBats), gen ->
+                 gen.doubles().range(0.1, 2d)
+             )
+            .create();
     }
 
 }

@@ -29,6 +29,48 @@ import org.eclipse.microprofile.openapi.annotations.tags.Tags;
 public class ExampleEndpoint {
 
     @GET
+    @Path("/record/team")
+    @Produces(MediaType.APPLICATION_JSON)
+    @APIResponses(
+        {
+            @APIResponse(
+                responseCode = "200",
+                description = "Returns a list of teams",
+                content = @Content(
+                    mediaType = "application/json",
+                    schema = @Schema(type = SchemaType.ARRAY, implementation = TeamRecord.class)
+                )
+            )
+        }
+    )
+    public Response listTeamRecord() {
+        List<TeamRecord> teams = InstancioGenerator.getTeamRecordList(12);
+        return Response.ok(teams)
+            .build();
+    }
+
+    @GET
+    @Path("/record/team/{id:\\d+}")
+    @Produces(MediaType.APPLICATION_JSON)
+    @APIResponses(
+        {
+            @APIResponse(
+                responseCode = "200",
+                description = "Returns the detail of a team",
+                content = @Content(
+                    mediaType = "application/json",
+                    schema = @Schema(type = SchemaType.OBJECT, implementation = TeamRecord.class)
+                )
+            )
+        }
+    )
+    public Response detailTeamRecord(@PathParam("id") Integer teamId) {
+        var team = InstancioGenerator.getTeamRecord(teamId);
+        return Response.ok(team)
+            .build();
+    }
+    ////
+    @GET
     @Path("/team")
     @Produces(MediaType.APPLICATION_JSON)
     @APIResponses(
