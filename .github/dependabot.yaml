@@ -1,0 +1,35 @@
+# see: https://docs.github.com/en/code-security/dependabot/dependabot-security-updates
+# see: https://docs.github.com/en/code-security/dependabot/dependabot-version-updates/configuration-options-for-the-dependabot.yml-file#package-ecosystem
+version: 2
+updates:
+  - package-ecosystem: "github-actions"
+    directory: "/"
+    schedule:
+      interval: "monthly"
+      day: "sunday"
+      time: "07:00"
+      timezone: "Asia/Tokyo"
+  - package-ecosystem: "maven"
+    directory: "./client"
+    schedule:
+      interval: "monthly"
+      day: "sunday"
+      time: "07:00"
+      timezone: "Asia/Tokyo"
+    ignore:
+      - dependency-name: "io.quarkus.platform:quarkus-bom"
+        update-types: ["version-update:semver-major"]
+      - dependency-name: "io.quarkus.platform:quarkus-maven-plugin"
+        update-types: ["version-update:semver-major"]
+  - package-ecosystem: "maven"
+    directory: "./server"
+    schedule:
+      interval: "monthly"
+      day: "sunday"
+      time: "07:00"
+      timezone: "Asia/Tokyo"
+    ignore:
+      - dependency-name: "io.quarkus.platform:quarkus-bom"
+        update-types: ["version-update:semver-major"]
+      - dependency-name: "io.quarkus.platform:quarkus-maven-plugin"
+        update-types: ["version-update:semver-major"]
