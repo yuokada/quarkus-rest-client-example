@@ -1,6 +1,6 @@
 package io.github.yuokada.rest.service;
 
-import io.github.yuokada.rest.util.InstancioGenerator;
+import io.github.yuokada.rest.util.DummyDataGenerator;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.ws.rs.DefaultValue;
 import jakarta.ws.rs.GET;
@@ -44,7 +44,7 @@ public class ExampleEndpoint {
         }
     )
     public Response listTeamRecord() {
-        List<Team> teams = InstancioGenerator.getTeamRecordList(12);
+        List<Team> teams = DummyDataGenerator.getTeamRecordList(12);
         return Response.ok(teams)
             .build();
     }
@@ -65,7 +65,7 @@ public class ExampleEndpoint {
         }
     )
     public Response detailTeamRecord(@PathParam("id") Integer teamId) {
-        var team = InstancioGenerator.getTeamRecord(teamId);
+        var team = DummyDataGenerator.getTeamRecord(teamId);
         return Response.ok(team)
             .build();
     }
@@ -89,7 +89,7 @@ public class ExampleEndpoint {
     )
     public Response players() {
         Random random = new Random();
-        List<Player> players = InstancioGenerator.getPlayers(random.nextInt(50));
+        List<Player> players = DummyDataGenerator.getPlayers(random.nextInt(50));
         return Response.ok(players)
             .build();
     }
@@ -118,7 +118,7 @@ public class ExampleEndpoint {
         @HeaderParam("X-Foo") String fooHeader
     ) {
         Random random = new Random();
-        List<Player> players = InstancioGenerator.getPlayers(random.nextInt(50));
+        List<Player> players = DummyDataGenerator.getPlayers(random.nextInt(50));
         return Response.ok(players)
             .build();
     }

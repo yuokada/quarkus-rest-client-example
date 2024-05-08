@@ -14,7 +14,7 @@ import net.datafaker.Faker;
 import org.instancio.Assign;
 import org.instancio.Instancio;
 
-public class InstancioGenerator {
+public class DummyDataGenerator {
 
     private static final Random gRandom = new Random();
     private static final Faker gFaker = new Faker();
@@ -35,7 +35,7 @@ public class InstancioGenerator {
 
     public static List<TeamLegacy> getTeamList(Integer size) {
         List<TeamLegacy> teams = IntStream.range(1, size)
-            .mapToObj(InstancioGenerator::getTeam)
+            .mapToObj(DummyDataGenerator::getTeam)
             .collect(Collectors.toList());
         return teams;
     }
@@ -47,7 +47,7 @@ public class InstancioGenerator {
             .generate(field("id"), gen -> gen.ints().range(1, 1024))
             .set(field("team"), team)
             .set(field("name"), nameFaker.fullName())
-            .supply(field("backNumber"), InstancioGenerator::backNumberGenerator)
+            .supply(field("backNumber"), DummyDataGenerator::backNumberGenerator)
             .create();
     }
 
@@ -55,7 +55,7 @@ public class InstancioGenerator {
         return Instancio.of(Player.class)
             .set(field("id"), id)
             .set(field("team"), team)
-            .supply(field("backNumber"), InstancioGenerator::backNumberGenerator)
+            .supply(field("backNumber"), DummyDataGenerator::backNumberGenerator)
             .create();
     }
 
@@ -69,7 +69,7 @@ public class InstancioGenerator {
                     .generate(field("id"), gen -> gen.ints().range(1, 1024))
                     .generate(field("team"), gen -> gen.oneOf(records))
                     .set(field("name"), nameFaker.fullName())
-                    .supply(field("backNumber"), InstancioGenerator::backNumberGenerator)
+                    .supply(field("backNumber"), DummyDataGenerator::backNumberGenerator)
                     .create();
             })
             .collect(Collectors.toList());
