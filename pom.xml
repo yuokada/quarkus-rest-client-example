@@ -39,6 +39,11 @@
         <artifactId>instancio-junit</artifactId>
         <version>${instancio.version}</version>
       </dependency>
+      <dependency>
+        <groupId>net.datafaker</groupId>
+        <artifactId>datafaker</artifactId>
+        <version>2.2.2</version>
+      </dependency>
     </dependencies>
   </dependencyManagement>
 

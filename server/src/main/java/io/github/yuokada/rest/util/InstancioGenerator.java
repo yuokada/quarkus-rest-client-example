@@ -6,26 +6,30 @@ import io.github.yuokada.rest.service.Player;
 import io.github.yuokada.rest.service.Team;
 import io.github.yuokada.rest.service.TeamRecord;
 import java.util.List;
+import java.util.Locale;
 import java.util.Random;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
+import net.datafaker.Faker;
 import org.instancio.Assign;
 import org.instancio.Instancio;
 
 public class InstancioGenerator {
 
     private static final Random gRandom = new Random();
+    private static final Faker gFaker = new Faker();
 
     public static Team getTeam(Integer teamId) {
     return Instancio.of(Team.class)
         .set(field("id"), teamId)
+        .set(field("name"), gFaker.team().name())
         .generate(
             field("regulationAtBats"),
             gen -> gen.doubles().range(0.1, 2.5).as(d -> Double.valueOf(String.format("%.1f", d))))
         .assign(
             Assign.valueOf(Team::getName)
                 .to(Team::getUrlPath)
-                .as((String teamName) -> teamName.toLowerCase()))
+                .as((String teamName) -> teamName.toLowerCase().replace(" ", "-")))
         .create();
     }
 
@@ -38,9 +42,11 @@ public class InstancioGenerator {
 
     public static Player getPlayer(Integer teamId) {
         Team team = getTeam(teamId);
+        var nameFaker = new Faker().name();
         return Instancio.of(Player.class)
             .generate(field("id"), gen -> gen.ints().range(1, 1024))
             .set(field("team"), team)
+            .set(field("name"), nameFaker.fullName())
             .supply(field("backNumber"), InstancioGenerator::backNumberGenerator)
             .create();
     }
@@ -54,12 +60,15 @@ public class InstancioGenerator {
     }
 
     public static List<Player> getPlayers(Integer size) {
-        List<Team> teams = getTeamList(6);
+        var teams = getTeamList(6);
+        var nameFaker = new Faker(Locale.JAPAN).name();
+
         List<Player> players = IntStream.range(1, size)
             .mapToObj(i -> {
                 return Instancio.of(Player.class)
                     .generate(field("id"), gen -> gen.ints().range(1, 1024))
                     .generate(field("team"), gen -> gen.oneOf(teams))
+                    .set(field("name"), nameFaker.fullName())
                     .supply(field("backNumber"), InstancioGenerator::backNumberGenerator)
                     .create();
             })
@@ -68,8 +77,7 @@ public class InstancioGenerator {
     }
 
     private static String backNumberGenerator() {
-        int n = gRandom.nextInt(128);
-        return String.format("%d", n);
+        return String.format("%d", gRandom.nextInt(110));
     }
 
     // Methods for TeamRecord
