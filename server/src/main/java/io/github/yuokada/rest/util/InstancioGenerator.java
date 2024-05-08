@@ -17,14 +17,16 @@ public class InstancioGenerator {
     private static final Random gRandom = new Random();
 
     public static Team getTeam(Integer teamId) {
-        return Instancio.of(Team.class)
-            .set(field("id"), teamId)
-            .generate(field("regulationAtBats"), gen -> gen.doubles().range(0.1, 2.0).nullable())
-            .assign(Assign.valueOf(Team::getName)
+    return Instancio.of(Team.class)
+        .set(field("id"), teamId)
+        .generate(
+            field("regulationAtBats"),
+            gen -> gen.doubles().range(0.1, 2.5).as(d -> Double.valueOf(String.format("%.1f", d))))
+        .assign(
+            Assign.valueOf(Team::getName)
                 .to(Team::getUrlPath)
-                .as((String teamName) -> teamName.toLowerCase())
-            )
-            .create();
+                .as((String teamName) -> teamName.toLowerCase()))
+        .create();
     }
 
     public static List<Team> getTeamList(Integer size) {
@@ -83,7 +85,9 @@ public class InstancioGenerator {
         return Instancio.of(TeamRecord.class)
              .set(field("id"), teamId)
              .generate(field(TeamRecord::regulationAtBats), gen ->
-                 gen.doubles().range(0.1, 2d)
+                 gen.doubles().range(0.1, 2d).as(
+                     d -> Double.valueOf(String.format("%.1f", d))
+                 )
              )
             .create();
     }
