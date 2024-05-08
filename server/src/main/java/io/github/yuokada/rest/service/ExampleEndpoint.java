@@ -18,6 +18,8 @@ import org.eclipse.microprofile.openapi.annotations.media.Schema;
 import org.eclipse.microprofile.openapi.annotations.parameters.Parameter;
 import org.eclipse.microprofile.openapi.annotations.responses.APIResponse;
 import org.eclipse.microprofile.openapi.annotations.responses.APIResponses;
+import org.eclipse.microprofile.openapi.annotations.servers.Server;
+import org.eclipse.microprofile.openapi.annotations.servers.Servers;
 import org.eclipse.microprofile.openapi.annotations.tags.Tag;
 import org.eclipse.microprofile.openapi.annotations.tags.Tags;
 
@@ -25,6 +27,9 @@ import org.eclipse.microprofile.openapi.annotations.tags.Tags;
 @Path("/api/v1")
 @Tags({
     @Tag(name = "BMS basic API", description = "Common APIs for BMS")
+})
+@Servers({
+    @Server(url = "http://localhost:8080", description = "Local server")
 })
 public class ExampleEndpoint {
 
@@ -69,6 +74,7 @@ public class ExampleEndpoint {
         return Response.ok(team)
             .build();
     }
+
     ////
     @GET
     @Path("/player")

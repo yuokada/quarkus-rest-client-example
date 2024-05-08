@@ -3,41 +3,69 @@ openapi: 3.0.3
 info:
   title: server API
   version: 1.0-SNAPSHOT
-servers:
-- url: http://localhost:8080
-  description: Auto generated value
-- url: http://0.0.0.0:8080
-  description: Auto generated value
+tags:
+- name: BMS basic API
+  description: Common APIs for BMS
 paths:
-  /api/v1/example:
+  /api/v1/experimental/player:
     get:
       tags:
-      - Example Endpoint
+      - BMS basic API
+      parameters:
+      - name: X-Foo
+        in: header
+        description: test header parameter
+        schema:
+          default: default-foo-value
+          type: string
       responses:
         "200":
-          description: OK
+          description: Returns a list of players
           content:
             application/json:
               schema:
-                type: string
+                type: array
+                items:
+                  $ref: '#/components/schemas/Player'
+      servers:
+      - url: http://localhost:8080
+        description: Local server
   /api/v1/player:
     get:
       tags:
-      - Example Endpoint
+      - BMS basic API
       responses:
         "200":
-          description: OK
+          description: Returns a list of players
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Player'
+      servers:
+      - url: http://localhost:8080
+        description: Local server
   /api/v1/team:
     get:
       tags:
-      - Example Endpoint
+      - BMS basic API
       responses:
         "200":
-          description: OK
+          description: Returns a list of teams
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Team'
+      servers:
+      - url: http://localhost:8080
+        description: Local server
   /api/v1/team/{id}:
     get:
       tags:
-      - Example Endpoint
+      - BMS basic API
       parameters:
       - name: id
         in: path
@@ -47,4 +75,49 @@ paths:
           type: integer
       responses:
         "200":
-          description: OK
+          description: Returns the detail of a team
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id:
+                    format: int32
+                    type: integer
+                  name:
+                    type: string
+                  url_path:
+                    type: string
+                  at_bats:
+                    format: double
+                    type: number
+      servers:
+      - url: http://localhost:8080
+        description: Local server
+components:
+  schemas:
+    Player:
+      type: object
+      properties:
+        id:
+          format: int32
+          type: integer
+        name:
+          type: string
+        team:
+          $ref: '#/components/schemas/Team'
+        backNumber:
+          type: string
+    Team:
+      type: object
+      properties:
+        id:
+          format: int32
+          type: integer
+        name:
+          type: string
+        url_path:
+          type: string
+        at_bats:
+          format: double
+          type: number
