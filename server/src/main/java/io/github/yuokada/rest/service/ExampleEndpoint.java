@@ -161,8 +161,8 @@ public class ExampleEndpoint {
         }
     )
     public Response testPlayers(
-        @Parameter(description = "test heaader parameter")
-        @HeaderParam("X-foo") String testHeader
+        @Parameter(description = "test header parameter")
+        @HeaderParam("X-Foo") String fooHeader
     ) {
         Random random = new Random();
         List<Player> players = InstancioGenerator.getPlayers(random.nextInt(50));
