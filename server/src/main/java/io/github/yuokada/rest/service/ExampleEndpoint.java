@@ -2,6 +2,7 @@ package io.github.yuokada.rest.service;
 
 import io.github.yuokada.rest.util.InstancioGenerator;
 import jakarta.enterprise.context.ApplicationScoped;
+import jakarta.ws.rs.DefaultValue;
 import jakarta.ws.rs.GET;
 import jakarta.ws.rs.HeaderParam;
 import jakarta.ws.rs.Path;
@@ -143,7 +144,7 @@ public class ExampleEndpoint {
 
     // Test endpoints
     @GET
-    @Path("/test/player")
+    @Path("/experimental/player")
     @Produces(MediaType.APPLICATION_JSON)
     @APIResponses(
         {
@@ -161,6 +162,7 @@ public class ExampleEndpoint {
     )
     public Response testPlayers(
         @Parameter(description = "test header parameter")
+        @DefaultValue("default-foo-value")
         @HeaderParam("X-Foo") String fooHeader
     ) {
         Random random = new Random();
