@@ -19,6 +19,7 @@ public class DummyDataGenerator {
     private static final Random gRandom = new Random();
     private static final Faker gFaker = new Faker();
 
+    @Deprecated
     public static TeamLegacy getTeam(Integer teamId) {
     return Instancio.of(TeamLegacy.class)
         .set(field("id"), teamId)
@@ -33,45 +34,17 @@ public class DummyDataGenerator {
         .create();
     }
 
-    public static List<TeamLegacy> getTeamList(Integer size) {
-        List<TeamLegacy> teams = IntStream.range(1, size)
-            .mapToObj(DummyDataGenerator::getTeam)
-            .collect(Collectors.toList());
-        return teams;
-    }
-
-    public static Player getPlayer(Integer teamId) {
-        TeamLegacy team = getTeam(teamId);
-        var nameFaker = new Faker().name();
-        return Instancio.of(Player.class)
-            .generate(field("id"), gen -> gen.ints().range(1, 1024))
-            .set(field("team"), team)
-            .set(field("name"), nameFaker.fullName())
-            .supply(field("backNumber"), DummyDataGenerator::backNumberGenerator)
-            .create();
-    }
-
-    public static Player getPlayer(TeamLegacy team, Integer id) {
-        return Instancio.of(Player.class)
-            .set(field("id"), id)
-            .set(field("team"), team)
-            .supply(field("backNumber"), DummyDataGenerator::backNumberGenerator)
-            .create();
-    }
-
     public static List<Player> getPlayers(Integer size) {
         var records = getTeamRecordList(6);
         var nameFaker = new Faker(Locale.JAPAN).name();
 
         List<Player> players = IntStream.range(1, size)
-            .mapToObj(i -> {
-                return Instancio.of(Player.class)
+            .mapToObj(i -> Instancio.of(Player.class)
                     .generate(field("id"), gen -> gen.ints().range(1, 1024))
                     .generate(field("team"), gen -> gen.oneOf(records))
                     .set(field("name"), nameFaker.fullName())
                     .supply(field("backNumber"), DummyDataGenerator::backNumberGenerator)
-                    .create();
-            })
+                    .create())
             .collect(Collectors.toList());
         return players;
     }
@@ -87,7 +60,7 @@ public class DummyDataGenerator {
             .generate(field(Team::id), gen -> gen.ints().range(1, 128))
             .set(field(Team::name), gFaker.team().name())
             .generate(field(Team::regulationAtBats),
-                gen -> gen.doubles().range(0.1, 2d).as(
+                gen -> gen.doubles().range(0.1, 2.5).as(
                     d -> Double.valueOf(String.format("%.1f", d))
                 ))
             .create();
@@ -99,7 +72,7 @@ public class DummyDataGenerator {
              .set(field(Team::id), teamId)
              .set(field(Team::name), gFaker.team().name())
              .generate(field(Team::regulationAtBats), gen ->
-                 gen.doubles().range(0.1, 2d).as(
+                 gen.doubles().range(0.1, 2.5).as(
                      d -> Double.valueOf(String.format("%.1f", d))
                  )
              )
