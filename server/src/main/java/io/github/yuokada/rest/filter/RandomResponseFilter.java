@@ -1,7 +1,6 @@
 package io.github.yuokada.rest.filter;
 
 import io.quarkus.vertx.http.runtime.filters.Filters;
-import io.quarkus.vertx.web.RouteFilter;
 import io.vertx.core.http.HttpHeaders;
 import io.vertx.core.http.HttpServerRequest;
 import io.vertx.core.http.HttpServerResponse;

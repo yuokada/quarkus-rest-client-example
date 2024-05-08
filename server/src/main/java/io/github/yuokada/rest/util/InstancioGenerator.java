@@ -1,7 +1,6 @@
 package io.github.yuokada.rest.util;
 
 import static org.instancio.Select.field;
-import static org.instancio.Select.root;
 
 import io.github.yuokada.rest.service.Player;
 import io.github.yuokada.rest.service.Team;

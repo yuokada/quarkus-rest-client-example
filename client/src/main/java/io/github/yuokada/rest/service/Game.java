@@ -1,7 +1,6 @@
 package io.github.yuokada.rest.service;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-
 import java.time.LocalDate;
 import java.time.LocalTime;
 

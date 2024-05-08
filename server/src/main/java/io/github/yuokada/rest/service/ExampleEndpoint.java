@@ -2,7 +2,6 @@ package io.github.yuokada.rest.service;
 
 import io.github.yuokada.rest.util.InstancioGenerator;
 import jakarta.enterprise.context.ApplicationScoped;
-import jakarta.enterprise.context.RequestScoped;
 import jakarta.ws.rs.GET;
 import jakarta.ws.rs.HeaderParam;
 import jakarta.ws.rs.Path;
