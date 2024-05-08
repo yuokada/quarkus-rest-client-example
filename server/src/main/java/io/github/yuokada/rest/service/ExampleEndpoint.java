@@ -12,8 +12,6 @@ import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.Response;
 import java.util.List;
 import java.util.Random;
-import java.util.stream.Collectors;
-import java.util.stream.IntStream;
 import org.eclipse.microprofile.openapi.annotations.enums.SchemaType;
 import org.eclipse.microprofile.openapi.annotations.media.Content;
 import org.eclipse.microprofile.openapi.annotations.media.Schema;
@@ -31,48 +29,6 @@ import org.eclipse.microprofile.openapi.annotations.tags.Tags;
 public class ExampleEndpoint {
 
     @GET
-    @Path("/record/team")
-    @Produces(MediaType.APPLICATION_JSON)
-    @APIResponses(
-        {
-            @APIResponse(
-                responseCode = "200",
-                description = "Returns a list of teams",
-                content = @Content(
-                    mediaType = "application/json",
-                    schema = @Schema(type = SchemaType.ARRAY, implementation = TeamRecord.class)
-                )
-            )
-        }
-    )
-    public Response listTeamRecord() {
-        List<TeamRecord> teams = InstancioGenerator.getTeamRecordList(12);
-        return Response.ok(teams)
-            .build();
-    }
-
-    @GET
-    @Path("/record/team/{id:\\d+}")
-    @Produces(MediaType.APPLICATION_JSON)
-    @APIResponses(
-        {
-            @APIResponse(
-                responseCode = "200",
-                description = "Returns the detail of a team",
-                content = @Content(
-                    mediaType = "application/json",
-                    schema = @Schema(type = SchemaType.OBJECT, implementation = TeamRecord.class)
-                )
-            )
-        }
-    )
-    public Response detailTeamRecord(@PathParam("id") Integer teamId) {
-        var team = InstancioGenerator.getTeamRecord(teamId);
-        return Response.ok(team)
-            .build();
-    }
-    ////
-    @GET
     @Path("/team")
     @Produces(MediaType.APPLICATION_JSON)
     @APIResponses(
@@ -87,12 +43,8 @@ public class ExampleEndpoint {
             )
         }
     )
-    public Response listTeam() {
-        Random random = new Random();
-        List<Team> teams = IntStream.range(1, random.nextInt(50))
-            .mapToObj(InstancioGenerator::getTeam)
-            .collect(Collectors.toList());
-        List<Team> teams1 = InstancioGenerator.getTeamList(12);
+    public Response listTeamRecord() {
+        List<Team> teams = InstancioGenerator.getTeamRecordList(12);
         return Response.ok(teams)
             .build();
     }
@@ -104,7 +56,7 @@ public class ExampleEndpoint {
         {
             @APIResponse(
                 responseCode = "200",
-                description = "Returns the detail of a teams",
+                description = "Returns the detail of a team",
                 content = @Content(
                     mediaType = "application/json",
                     schema = @Schema(type = SchemaType.OBJECT, implementation = Team.class)
@@ -112,12 +64,12 @@ public class ExampleEndpoint {
             )
         }
     )
-    public Response detailTeam(@PathParam("id") Integer teamId) {
-        Team team = InstancioGenerator.getTeam(teamId);
+    public Response detailTeamRecord(@PathParam("id") Integer teamId) {
+        var team = InstancioGenerator.getTeamRecord(teamId);
         return Response.ok(team)
             .build();
     }
-
+    ////
     @GET
     @Path("/player")
     @Produces(MediaType.APPLICATION_JSON)
