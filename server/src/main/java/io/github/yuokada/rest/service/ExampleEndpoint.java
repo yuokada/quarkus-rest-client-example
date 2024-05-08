@@ -4,6 +4,7 @@ import io.github.yuokada.rest.util.InstancioGenerator;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.enterprise.context.RequestScoped;
 import jakarta.ws.rs.GET;
+import jakarta.ws.rs.HeaderParam;
 import jakarta.ws.rs.Path;
 import jakarta.ws.rs.PathParam;
 import jakarta.ws.rs.Produces;
@@ -16,6 +17,7 @@ import java.util.stream.IntStream;
 import org.eclipse.microprofile.openapi.annotations.enums.SchemaType;
 import org.eclipse.microprofile.openapi.annotations.media.Content;
 import org.eclipse.microprofile.openapi.annotations.media.Schema;
+import org.eclipse.microprofile.openapi.annotations.parameters.Parameter;
 import org.eclipse.microprofile.openapi.annotations.responses.APIResponse;
 import org.eclipse.microprofile.openapi.annotations.responses.APIResponses;
 import org.eclipse.microprofile.openapi.annotations.tags.Tag;
@@ -139,5 +141,35 @@ public class ExampleEndpoint {
         return Response.ok(players)
             .build();
     }
+
+    // Test endpoints
+    @GET
+    @Path("/test/player")
+    @Produces(MediaType.APPLICATION_JSON)
+    @APIResponses(
+        {
+            @APIResponse(
+                responseCode = "200",
+                description = "Returns a list of players",
+                content = @Content(
+                    mediaType = "application/json",
+                    schema = @Schema(
+                        type = SchemaType.ARRAY,
+                        implementation = Player.class)
+                )
+            )
+        }
+    )
+    public Response testPlayers(
+        @Parameter(description = "test heaader parameter")
+        @HeaderParam("X-foo") String testHeader
+    ) {
+        Random random = new Random();
+        List<Player> players = InstancioGenerator.getPlayers(random.nextInt(50));
+        return Response.ok(players)
+            .build();
+    }
+
+
 }
 
