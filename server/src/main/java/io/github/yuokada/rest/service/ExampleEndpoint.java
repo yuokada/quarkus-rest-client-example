@@ -1,5 +1,6 @@
 package io.github.yuokada.rest.service;
 
+import io.github.yuokada.rest.annotations.AuthErrorResponse;
 import io.github.yuokada.rest.util.DummyDataGenerator;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.ws.rs.DefaultValue;
@@ -45,7 +46,7 @@ public class ExampleEndpoint {
                     mediaType = "application/json",
                     schema = @Schema(type = SchemaType.ARRAY, implementation = Team.class)
                 )
-            )
+            ),
         }
     )
     public Response listTeamRecord() {
