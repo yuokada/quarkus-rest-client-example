@@ -1,16 +1,30 @@
 ---
 openapi: 3.0.3
 info:
-  title: server API
-  version: 1.0-SNAPSHOT
+  title: BMS API Endpoints
+  description: Here is description of BMS API.
+  contact:
+    name: BMS administrator
+    email: contact@email.example.com
+  license:
+    name: MIT License
+    url: https://opensource.org/licenses/MIT
+  version: 0.1.0
+servers:
+- url: http://localhost:8888
+  description: Local server
+- url: http://192.168.0.119:8888
+  description: A remote server
 tags:
 - name: BMS basic API
-  description: Common APIs for BMS
+  description: BMS Common APIs for authenticated users
+- name: BMS guest API
+  description: API endpoints for guest users
 paths:
-  /api/v1/experimental/player:
+  /api/v1/guest/players:
     get:
       tags:
-      - BMS basic API
+      - BMS guest API
       parameters:
       - name: X-Foo
         in: header
@@ -27,10 +41,20 @@ paths:
                 type: array
                 items:
                   $ref: '#/components/schemas/Player'
-      servers:
-      - url: http://localhost:8080
-        description: Local server
-  /api/v1/player:
+  /api/v1/guest/teams:
+    get:
+      tags:
+      - BMS guest API
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Team'
+  /api/v1/players:
     get:
       tags:
       - BMS basic API
@@ -43,13 +67,12 @@ paths:
                 type: array
                 items:
                   $ref: '#/components/schemas/Player'
-      servers:
-      - url: http://localhost:8080
-        description: Local server
-  /api/v1/team:
+  /api/v1/teams:
     get:
       tags:
       - BMS basic API
+      summary: Return a list of teams
+      description: Return a list of teams
       responses:
         "200":
           description: Returns a list of teams
@@ -59,13 +82,12 @@ paths:
                 type: array
                 items:
                   $ref: '#/components/schemas/Team'
-      servers:
-      - url: http://localhost:8080
-        description: Local server
-  /api/v1/team/{id}:
+  /api/v1/teams/{id}:
     get:
       tags:
       - BMS basic API
+      summary: Return a team detail
+      description: Return a team detail
       parameters:
       - name: id
         in: path
@@ -87,13 +109,13 @@ paths:
                   name:
                     type: string
                   url_path:
+                    maxLength: 32
                     type: string
                   at_bats:
                     format: double
+                    maximum: 5
+                    minimum: 0
                     type: number
-      servers:
-      - url: http://localhost:8080
-        description: Local server
 components:
   schemas:
     Player:
@@ -117,7 +139,10 @@ components:
         name:
           type: string
         url_path:
+          maxLength: 32
           type: string
         at_bats:
           format: double
+          maximum: 5
+          minimum: 0
           type: number

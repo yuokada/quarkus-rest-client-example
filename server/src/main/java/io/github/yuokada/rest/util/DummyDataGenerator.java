@@ -3,8 +3,8 @@ package io.github.yuokada.rest.util;
 import static org.instancio.Select.field;
 
 import io.github.yuokada.rest.service.Player;
-import io.github.yuokada.rest.service.TeamLegacy;
 import io.github.yuokada.rest.service.Team;
+import io.github.yuokada.rest.service.TeamLegacy;
 import java.util.List;
 import java.util.Locale;
 import java.util.Random;
@@ -21,17 +21,17 @@ public class DummyDataGenerator {
 
     @Deprecated
     public static TeamLegacy getTeam(Integer teamId) {
-    return Instancio.of(TeamLegacy.class)
-        .set(field("id"), teamId)
-        .set(field("name"), gFaker.team().name())
-        .generate(
-            field("regulationAtBats"),
-            gen -> gen.doubles().range(0.1, 2.5).as(d -> Double.valueOf(String.format("%.1f", d))))
-        .assign(
-            Assign.valueOf(TeamLegacy::getName)
-                .to(TeamLegacy::getUrlPath)
-                .as((String teamName) -> teamName.toLowerCase().replace(" ", "-")))
-        .create();
+        return Instancio.of(TeamLegacy.class)
+            .set(field("id"), teamId)
+            .set(field("name"), gFaker.team().name())
+            .generate(
+                field("regulationAtBats"),
+                gen -> gen.doubles().range(0.1, 2.5).as(d -> Double.valueOf(String.format("%.1f", d))))
+            .assign(
+                Assign.valueOf(TeamLegacy::getName)
+                    .to(TeamLegacy::getUrlPath)
+                    .as((String teamName) -> teamName.toLowerCase().replace(" ", "-")))
+            .create();
     }
 
     public static List<Player> getPlayers(Integer size) {
@@ -40,11 +40,11 @@ public class DummyDataGenerator {
 
         List<Player> players = IntStream.range(1, size)
             .mapToObj(i -> Instancio.of(Player.class)
-                    .generate(field("id"), gen -> gen.ints().range(1, 1024))
-                    .generate(field("team"), gen -> gen.oneOf(records))
-                    .set(field("name"), nameFaker.fullName())
-                    .supply(field("backNumber"), DummyDataGenerator::backNumberGenerator)
-                    .create())
+                .generate(field("id"), gen -> gen.ints().range(1, 1024))
+                .generate(field("team"), gen -> gen.oneOf(records))
+                .set(field("name"), nameFaker.fullName())
+                .supply(field("backNumber"), DummyDataGenerator::backNumberGenerator)
+                .create())
             .collect(Collectors.toList());
         return players;
     }
@@ -66,16 +66,17 @@ public class DummyDataGenerator {
             .create();
         return teams;
     }
+
     public static Team getTeamRecord(Integer teamId) {
         return Instancio.of(Team.class)
-             // .set(field("id"), teamId)
-             .set(field(Team::id), teamId)
-             .set(field(Team::name), gFaker.team().name())
-             .generate(field(Team::regulationAtBats), gen ->
-                 gen.doubles().range(0.1, 2.5).as(
-                     d -> Double.valueOf(String.format("%.1f", d))
-                 )
-             )
+            // .set(field("id"), teamId)
+            .set(field(Team::id), teamId)
+            .set(field(Team::name), gFaker.team().name())
+            .generate(field(Team::regulationAtBats), gen ->
+                gen.doubles().range(0.1, 2.5).as(
+                    d -> Double.valueOf(String.format("%.1f", d))
+                )
+            )
             .create();
     }
 

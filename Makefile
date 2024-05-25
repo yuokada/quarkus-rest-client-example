@@ -10,3 +10,8 @@ fix_import_only:
 
 reformat_java_files:
 	ls -1 ${JAVA_FILES} | xargs -L 1 java -jar google-java-format-all-deps.jar --replace --offset 4 --length 4
+
+# OpenAPI
+download_openapi_yaml:
+	# ./mvnw quarkus:generate-code
+	wget -O server/openapi-definition/openapi.yaml http://localhost:8888/q/openapi

@@ -1,5 +1,7 @@
 package io.github.yuokada.rest.service;
 
+import io.github.yuokada.rest.annotations.BasicAPI;
+import io.github.yuokada.rest.annotations.GuestAPI;
 import io.github.yuokada.rest.util.DummyDataGenerator;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.ws.rs.DefaultValue;
@@ -12,30 +14,27 @@ import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.Response;
 import java.util.List;
 import java.util.Random;
+import org.eclipse.microprofile.openapi.annotations.Operation;
 import org.eclipse.microprofile.openapi.annotations.enums.SchemaType;
 import org.eclipse.microprofile.openapi.annotations.media.Content;
 import org.eclipse.microprofile.openapi.annotations.media.Schema;
 import org.eclipse.microprofile.openapi.annotations.parameters.Parameter;
 import org.eclipse.microprofile.openapi.annotations.responses.APIResponse;
+import org.eclipse.microprofile.openapi.annotations.responses.APIResponseSchema;
 import org.eclipse.microprofile.openapi.annotations.responses.APIResponses;
-import org.eclipse.microprofile.openapi.annotations.servers.Server;
-import org.eclipse.microprofile.openapi.annotations.servers.Servers;
-import org.eclipse.microprofile.openapi.annotations.tags.Tag;
-import org.eclipse.microprofile.openapi.annotations.tags.Tags;
 
 @ApplicationScoped
 @Path("/api/v1")
-@Tags({
-    @Tag(name = "BMS basic API", description = "Common APIs for BMS")
-})
-@Servers({
-    @Server(url = "http://localhost:8080", description = "Local server")
-})
+@Produces(MediaType.APPLICATION_JSON)
+@BasicAPI
 public class ExampleEndpoint {
 
     @GET
-    @Path("/team")
-    @Produces(MediaType.APPLICATION_JSON)
+    @Path("/teams")
+    @Operation(
+        summary = "Return a list of teams",
+        description = "Return a list of teams"
+    )
     @APIResponses(
         {
             @APIResponse(
@@ -55,8 +54,12 @@ public class ExampleEndpoint {
     }
 
     @GET
-    @Path("/team/{id:\\d+}")
-    @Produces(MediaType.APPLICATION_JSON)
+    @Operation(
+        summary = "Return a team detail",
+        description = "Return a team detail"
+    )
+    @Path("/teams/{id:\\d+}")
+
     @APIResponses(
         {
             @APIResponse(
@@ -75,10 +78,9 @@ public class ExampleEndpoint {
             .build();
     }
 
-    ////
     @GET
-    @Path("/player")
-    @Produces(MediaType.APPLICATION_JSON)
+    @Path("/players")
+
     @APIResponses(
         {
             @APIResponse(
@@ -100,24 +102,26 @@ public class ExampleEndpoint {
             .build();
     }
 
-    // Test endpoints
+    // endpoints for guest users
     @GET
-    @Path("/experimental/player")
-    @Produces(MediaType.APPLICATION_JSON)
-    @APIResponses(
-        {
-            @APIResponse(
-                responseCode = "200",
-                description = "Returns a list of players",
-                content = @Content(
-                    mediaType = "application/json",
-                    schema = @Schema(
-                        type = SchemaType.ARRAY,
-                        implementation = Player.class)
-                )
-            )
-        }
-    )
+    @Path("/guest/players")
+    @GuestAPI
+//    @APIResponses(
+//        {
+//            @APIResponse(
+//                responseCode = "200",
+//                description = "Returns a list of players",
+//                content = @Content(
+//                    schema = @Schema(
+//                        type = SchemaType.ARRAY,
+//                        implementation = Player.class)
+//                )
+//            )
+//        }
+//    )
+    @APIResponseSchema(value = Player[].class,
+        responseCode = "200",
+        responseDescription = "Returns a list of players")
     public Response testPlayers(
         @Parameter(description = "test header parameter")
         @DefaultValue("default-foo-value")
@@ -129,6 +133,16 @@ public class ExampleEndpoint {
             .build();
     }
 
+    @GET
+    @Path("/guest/teams")
+    @GuestAPI
+    @APIResponseSchema(Team[].class)
+    public Response testTeams() {
+        Random random = new Random();
+        var teams = DummyDataGenerator.getTeamRecordList(random.nextInt(50));
+        return Response.ok(teams)
+            .build();
+    }
 
 }
 
