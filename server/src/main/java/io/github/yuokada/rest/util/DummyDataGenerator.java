@@ -8,6 +8,7 @@ import io.github.yuokada.rest.service.TeamLegacy;
 import java.util.List;
 import java.util.Locale;
 import java.util.Random;
+import java.util.Set;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 import net.datafaker.Faker;
@@ -34,8 +35,15 @@ public class DummyDataGenerator {
             .create();
     }
 
-    public static List<Player> getPlayers(Integer size) {
-        var records = getTeamRecordList(6);
+    public static List<Player> getPlayers(Integer size, Set<Integer> teamIds) {
+        System.out.println(teamIds);
+        List<Team> records;
+        if (teamIds.isEmpty()) {
+             records = getTeamRecordList(6);
+        }else {
+            records = teamIds.stream().map(DummyDataGenerator::getTeamRecord).collect(Collectors.toList());
+            System.out.println(records);
+        }
         var nameFaker = new Faker(Locale.JAPAN).name();
 
         List<Player> players = IntStream.range(1, size)
