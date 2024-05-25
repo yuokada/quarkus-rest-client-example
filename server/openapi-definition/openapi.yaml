@@ -82,6 +82,9 @@ paths:
                 type: array
                 items:
                   $ref: '#/components/schemas/Team'
+      security:
+      - basicAuth: []
+      - jwt token: []
   /api/v1/teams/{id}:
     get:
       tags:
@@ -146,3 +149,12 @@ components:
           maximum: 5
           minimum: 0
           type: number
+  securitySchemes:
+    basicAuth:
+      type: http
+      scheme: basic
+    jwt token:
+      type: apiKey
+      in: header
+      scheme: bearer
+      bearerFormat: jwt

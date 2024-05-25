@@ -116,7 +116,12 @@
               }
             }
           }
-        }
+        },
+        "security" : [ {
+          "basicAuth" : [ ]
+        }, {
+          "jwt token" : [ ]
+        } ]
       }
     },
     "/api/v1/teams/{id}" : {
@@ -208,6 +213,18 @@
             "type" : "number"
           }
         }
+      }
+    },
+    "securitySchemes" : {
+      "basicAuth" : {
+        "type" : "http",
+        "scheme" : "basic"
+      },
+      "jwt token" : {
+        "type" : "apiKey",
+        "in" : "header",
+        "scheme" : "bearer",
+        "bearerFormat" : "jwt"
       }
     }
   }

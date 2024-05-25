@@ -16,17 +16,41 @@ import java.util.List;
 import java.util.Random;
 import org.eclipse.microprofile.openapi.annotations.Operation;
 import org.eclipse.microprofile.openapi.annotations.enums.SchemaType;
+import org.eclipse.microprofile.openapi.annotations.enums.SecuritySchemeIn;
+import org.eclipse.microprofile.openapi.annotations.enums.SecuritySchemeType;
 import org.eclipse.microprofile.openapi.annotations.media.Content;
 import org.eclipse.microprofile.openapi.annotations.media.Schema;
 import org.eclipse.microprofile.openapi.annotations.parameters.Parameter;
 import org.eclipse.microprofile.openapi.annotations.responses.APIResponse;
 import org.eclipse.microprofile.openapi.annotations.responses.APIResponseSchema;
 import org.eclipse.microprofile.openapi.annotations.responses.APIResponses;
+import org.eclipse.microprofile.openapi.annotations.security.SecurityRequirement;
+import org.eclipse.microprofile.openapi.annotations.security.SecurityRequirements;
+import org.eclipse.microprofile.openapi.annotations.security.SecurityScheme;
+import org.eclipse.microprofile.openapi.annotations.security.SecuritySchemes;
+import org.jboss.resteasy.reactive.NoCache;
 
 @ApplicationScoped
 @Path("/api/v1")
 @Produces(MediaType.APPLICATION_JSON)
 @BasicAPI
+@SecuritySchemes(
+    {
+        @SecurityScheme(
+            securitySchemeName = "basicAuth",
+            type = SecuritySchemeType.HTTP,
+            scheme = "basic"
+        ),
+        @SecurityScheme(
+            securitySchemeName = "jwt token",
+            type = SecuritySchemeType.APIKEY,
+            in = SecuritySchemeIn.HEADER,
+            scheme = "bearer",
+            bearerFormat = "jwt"
+        )
+    }
+
+)
 public class ExampleEndpoint {
 
     @GET
@@ -47,6 +71,13 @@ public class ExampleEndpoint {
             ),
         }
     )
+    @SecurityRequirements(
+        {
+            @SecurityRequirement(name = "basicAuth"),
+            @SecurityRequirement(name = "jwt token")
+        }
+    )
+    // @SecurityRequirement(name = "basicAuth")
     public Response listTeamRecord() {
         List<Team> teams = DummyDataGenerator.getTeamRecordList(12);
         return Response.ok(teams)

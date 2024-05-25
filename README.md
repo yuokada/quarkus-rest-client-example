@@ -32,3 +32,9 @@ If you want to build an _über-jar_, execute the following command:
 ```
 
 The application, packaged as an _über-jar_, is now runnable using `java -jar target/*-runner.jar`.
+
+
+## Reference
+
+- [eclipse/microprofile-open-api: Microprofile open api](https://github.com/eclipse/microprofile-open-api)
+- [MicroProfile OpenAPI Specification](https://download.eclipse.org/microprofile/microprofile-open-api-3.0-RC4/microprofile-openapi-spec-3.0-RC4.html)
