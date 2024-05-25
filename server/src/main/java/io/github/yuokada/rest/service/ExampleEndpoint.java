@@ -1,6 +1,5 @@
 package io.github.yuokada.rest.service;
 
-import io.github.yuokada.rest.annotations.AuthErrorResponse;
 import io.github.yuokada.rest.util.DummyDataGenerator;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.ws.rs.DefaultValue;

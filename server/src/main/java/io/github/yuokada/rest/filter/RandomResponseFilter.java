@@ -9,6 +9,7 @@ import io.vertx.ext.web.handler.HttpException;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.enterprise.event.Observes;
 import jakarta.inject.Inject;
+import jakarta.ws.rs.Priorities;
 import org.jboss.logging.Logger;
 
 @ApplicationScoped
@@ -37,7 +38,7 @@ public class RandomResponseFilter {
     public void register(@Observes Filters filters) {
         filters.register(rc -> {
             practiceFilter(rc, logger);
-        }, 1000);
+        }, Priorities.USER);
         logger.info(String.format("%s is registered", RandomResponseFilter.class.getName()));
     }
 
