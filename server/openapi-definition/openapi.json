@@ -32,6 +32,20 @@
       "get" : {
         "tags" : [ "BMS guest API" ],
         "parameters" : [ {
+          "name" : "team_ids",
+          "in" : "query",
+          "description" : "Filter with team ids",
+          "schema" : {
+            "uniqueItems" : true,
+            "type" : "array",
+            "items" : {
+              "format" : "int32",
+              "type" : "integer"
+            }
+          },
+          "style" : "form",
+          "explode" : false
+        }, {
           "name" : "X-Foo",
           "in" : "header",
           "description" : "test header parameter",
@@ -80,6 +94,33 @@
     "/api/v1/players" : {
       "get" : {
         "tags" : [ "BMS basic API" ],
+        "parameters" : [ {
+          "name" : "limit",
+          "in" : "query",
+          "schema" : {
+            "default" : 50,
+            "type" : "number"
+          }
+        }, {
+          "name" : "offset",
+          "in" : "query",
+          "schema" : {
+            "type" : "number"
+          }
+        }, {
+          "name" : "team_ids",
+          "in" : "query",
+          "description" : "filter with team ids",
+          "schema" : {
+            "type" : "array",
+            "items" : {
+              "format" : "int32",
+              "type" : "integer"
+            }
+          },
+          "style" : "form",
+          "explode" : false
+        } ],
         "responses" : {
           "200" : {
             "description" : "Returns a list of players",
