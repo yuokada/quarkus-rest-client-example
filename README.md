@@ -38,3 +38,7 @@ The application, packaged as an _über-jar_, is now runnable using `java -jar ta
 
 - [eclipse/microprofile-open-api: Microprofile open api](https://github.com/eclipse/microprofile-open-api)
 - [MicroProfile OpenAPI Specification](https://download.eclipse.org/microprofile/microprofile-open-api-3.0-RC4/microprofile-openapi-spec-3.0-RC4.html)
+
+### Issues related to Query parameters
+
+- [Quarkus RestEasy Reactive Not Exploding List Type Query Parameter · quarkusio/quarkus · Discussion \#27115](https://github.com/quarkusio/quarkus/discussions/27115)
