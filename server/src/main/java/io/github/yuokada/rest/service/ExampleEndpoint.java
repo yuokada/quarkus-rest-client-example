@@ -34,6 +34,7 @@ import org.eclipse.microprofile.openapi.annotations.security.SecurityRequirement
 import org.eclipse.microprofile.openapi.annotations.security.SecurityRequirements;
 import org.eclipse.microprofile.openapi.annotations.security.SecurityScheme;
 import org.eclipse.microprofile.openapi.annotations.security.SecuritySchemes;
+import org.jboss.resteasy.reactive.Separator;
 
 @ApplicationScoped
 @Path("/api/v1")
@@ -128,6 +129,7 @@ public class ExampleEndpoint {
             style = ParameterStyle.FORM, explode = Explode.FALSE,
             schema = @Schema(type = SchemaType.ARRAY, implementation = Integer.class)
         )
+        @Separator(",")
         @QueryParam("team_ids") Set<Integer> teamIds
     ) {
         Random random = new Random();
@@ -164,9 +166,10 @@ public class ExampleEndpoint {
         @Parameter(
             in = ParameterIn.QUERY,
             description = "Filter with team ids",
-            style = ParameterStyle.FORM, explode = Explode.FALSE,
-            schema = @Schema(type = SchemaType.ARRAY, implementation = Integer.class)
+            style = ParameterStyle.FORM, explode = Explode.FALSE
+            // , schema = @Schema(type = SchemaType.ARRAY, implementation = Integer.class)
         )
+        @Separator(",")
         @QueryParam("team_ids") Set<Integer> teamIds
     ) {
         Random random = new Random();
