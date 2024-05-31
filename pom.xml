@@ -17,7 +17,7 @@
     <quarkus.platform.version>3.10.2</quarkus.platform.version>
     <skipITs>true</skipITs>
     <surefire-plugin.version>3.2.5</surefire-plugin.version>
-    <instancio.version>4.5.1</instancio.version>
+    <instancio.version>4.7.0</instancio.version>
   </properties>
   <dependencyManagement>
     <dependencies>
