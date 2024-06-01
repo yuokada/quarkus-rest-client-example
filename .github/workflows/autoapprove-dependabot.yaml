@@ -1,0 +1,10 @@
+---
+name: Call Dependabot Auto-Approve
+
+on: pull_request
+
+jobs:
+  call-auto-approve:
+    uses: yuokada/shared-github-actions/.github/workflows/dependabot-auto-approve.yml@main
+    with:
+      actor: ${{ github.actor }}
