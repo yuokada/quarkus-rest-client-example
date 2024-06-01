@@ -11,3 +11,9 @@ jobs:
     uses: yuokada/shared-github-actions/.github/workflows/autoapprove-dependabot.yml@master
     with:
       actor: ${{ github.actor }}
+    secrets: inherit
+    # env:
+    #   token: ${{ secrets.GITHUB_TOKEN }}
+    # secrets:
+    #   GITHUB_TOKEN:
+    #     required: true
