@@ -10,19 +10,7 @@ updates:
       time: "07:00"
       timezone: "Asia/Tokyo"
   - package-ecosystem: "maven"
-    directory: "./client"
-    schedule:
-      interval: "monthly"
-      day: "sunday"
-      time: "07:00"
-      timezone: "Asia/Tokyo"
-    ignore:
-      - dependency-name: "io.quarkus.platform:quarkus-bom"
-        update-types: ["version-update:semver-major"]
-      - dependency-name: "io.quarkus.platform:quarkus-maven-plugin"
-        update-types: ["version-update:semver-major"]
-  - package-ecosystem: "maven"
-    directory: "./server"
+    directory: "/"
     schedule:
       interval: "monthly"
       day: "sunday"
