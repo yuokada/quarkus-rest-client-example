@@ -12,8 +12,6 @@ jobs:
     with:
       actor: ${{ github.actor }}
     secrets: inherit
-    # env:
-    #   token: ${{ secrets.GITHUB_TOKEN }}
     # secrets:
     #   GITHUB_TOKEN:
     #     required: true
