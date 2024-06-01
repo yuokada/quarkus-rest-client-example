@@ -5,6 +5,6 @@ on: pull_request
 
 jobs:
   call-auto-approve:
-    uses: yuokada/shared-github-actions/.github/workflows/dependabot-auto-approve.yml@main
+    uses: yuokada/shared-github-actions/.github/workflows/dependabot-auto-approve.yml@master
     with:
       actor: ${{ github.actor }}
