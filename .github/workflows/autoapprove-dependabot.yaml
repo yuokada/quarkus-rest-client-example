@@ -12,6 +12,4 @@ jobs:
     with:
       actor: ${{ github.actor }}
     secrets: inherit
-    # secrets:
-    #   GITHUB_TOKEN:
-    #     required: true
+
