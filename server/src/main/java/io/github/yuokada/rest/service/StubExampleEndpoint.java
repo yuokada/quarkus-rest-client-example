@@ -33,7 +33,7 @@ import org.jboss.resteasy.reactive.Separator;
     }
 
 )
-public class ExampleEndpoint implements ExampleEndpointApi {
+public class StubExampleEndpoint implements ExampleEndpointApi {
 
     @Override
     public Response listTeamRecord() {
