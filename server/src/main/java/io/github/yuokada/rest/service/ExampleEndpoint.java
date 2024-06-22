@@ -27,6 +27,15 @@ import org.jboss.resteasy.reactive.Separator;
 
 @ApplicationScoped
 @Path("/api/v1")
+@Produces(MediaType.APPLICATION_JSON)
+@BasicAPI
+@SecuritySchemes(
+    {
+        @SecurityScheme(securitySchemeName = "basicAuth", type = SecuritySchemeType.HTTP, scheme = "basic"),
+        @SecurityScheme(securitySchemeName = "jwt token", type = SecuritySchemeType.APIKEY, in = SecuritySchemeIn.HEADER, scheme = "bearer", bearerFormat = "jwt")
+    }
+
+)
 public class ExampleEndpoint implements ExampleEndpointApi {
 
     @Override
