@@ -27,7 +27,8 @@ public class DummyDataGenerator {
             .set(field("name"), gFaker.team().name())
             .generate(
                 field("regulationAtBats"),
-                gen -> gen.doubles().range(0.1, 2.5).as(d -> Double.valueOf(String.format("%.1f", d))))
+                gen -> gen.doubles().range(0.1, 2.5)
+                    .as(d -> Double.valueOf(String.format("%.1f", d))))
             .assign(
                 Assign.valueOf(TeamLegacy::getName)
                     .to(TeamLegacy::getUrlPath)
@@ -39,9 +40,10 @@ public class DummyDataGenerator {
         System.out.println(teamIds);
         List<Team> records;
         if (teamIds.isEmpty()) {
-             records = getTeamRecordList(6);
-        }else {
-            records = teamIds.stream().map(DummyDataGenerator::getTeamRecord).collect(Collectors.toList());
+            records = getTeamRecordList(6);
+        } else {
+            records = teamIds.stream().map(DummyDataGenerator::getTeamRecord)
+                .collect(Collectors.toList());
             System.out.println(records);
         }
         var nameFaker = new Faker(Locale.JAPAN).name();
