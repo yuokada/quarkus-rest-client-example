@@ -27,7 +27,6 @@ import org.jboss.resteasy.reactive.Separator;
 
 @ApplicationScoped
 @Path("/api/v1")
-@Produces(MediaType.APPLICATION_JSON)
 @BasicAPI
 @SecuritySchemes(
     {
