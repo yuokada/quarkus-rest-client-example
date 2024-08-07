@@ -1,16 +1,18 @@
 ---
-name: Call Dependabot Auto-Merge
-
+name: Dependabot auto-merge
 on: pull_request
 
-permissions: write-all
-# permissions:
-#   pull-requests: write
+permissions:
+  pull-requests: write
 
 jobs:
-  call-auto-merge:
+  auto-merge:
+    runs-on: ubuntu-latest
     if: github.actor == 'dependabot[bot]'
-    uses: yuokada/shared-github-actions/.github/workflows/automerge-dependabot.yml@master
-    with:
-      actor: ${{ github.actor }}
-    secrets: inherit
+    steps:
+      - name: Dependabot metadata
+        id: metadata
+        uses: dependabot/fetch-metadata@v2.2.0
+      - name: Enable Pull Request Automerge
+        run: gh pr merge --squash --auto "${{ github.event.pull_request.html_url }}"
+        if: steps.metadata.outputs.update-type == 'version-update:semver-minor' || steps.metadata.outputs.update-type == 'version-update:semver-patch'
