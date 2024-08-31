@@ -2,8 +2,6 @@
 name: Docker publish
 
 on:
-#  schedule:
-#    - cron: '26 8 * * *'
   push:
     branches: [ "master" ]
     # Publish semver tags as releases.
@@ -16,7 +14,6 @@ env:
   REGISTRY: ghcr.io
   # github.repository as <account>/<repo>
   IMAGE_NAME: ${{ github.repository }}
-#  IMAGE_NAME: yuokada/bms-openapi-server
 
 
 jobs:
@@ -73,7 +70,7 @@ jobs:
         run: mvn -B package --file pom.xml -Dquarkus.container-image.registry=${{ env.REGISTRY }}
 
       - name: Push Docker image
-        # if: ${{ github.event_name != 'pull_request' }}
+        if: ${{ github.event_name != 'pull_request' }}
         run: |
           docker image ls
           docker tag ${{ env.REGISTRY }}/runner/bms-openapi-server:1.0-SNAPSHOT ${{ env.REGISTRY }}/yuokada/quarkus-rest-client-example:server-latest
