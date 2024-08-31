@@ -50,6 +50,14 @@ public class StubExampleEndpoint implements ExampleEndpointApi {
     }
 
     @Override
+    public Response listPlayersOfTheTeam(Integer teamId) {
+        Random random = new Random();
+        List<Player> players = DummyDataGenerator.getPlayersByTeam(random.nextInt(50), teamId);
+
+        return Response.ok(players).build();
+    }
+
+    @Override
     public Response players(
         @Parameter(schema = @Schema(type = SchemaType.NUMBER))
         @QueryParam("offset") int offset,

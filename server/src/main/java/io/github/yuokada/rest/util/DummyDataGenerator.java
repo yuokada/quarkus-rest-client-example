@@ -20,14 +20,12 @@ public class DummyDataGenerator {
     private static final Faker gFaker = new Faker();
 
     public static List<Player> getPlayers(Integer size, Set<Integer> teamIds) {
-        System.out.println(teamIds);
         List<Team> records;
         if (teamIds.isEmpty()) {
             records = getTeamRecordList(6);
         } else {
             records = teamIds.stream().map(DummyDataGenerator::getTeamRecord)
                 .collect(Collectors.toList());
-            System.out.println(records);
         }
         var nameFaker = new Faker(Locale.JAPAN).name();
 
@@ -35,6 +33,20 @@ public class DummyDataGenerator {
             .mapToObj(i -> Instancio.of(Player.class)
                 .generate(field("id"), gen -> gen.ints().range(1, 1024))
                 .generate(field("team"), gen -> gen.oneOf(records))
+                .set(field("name"), nameFaker.fullName())
+                .supply(field("backNumber"), DummyDataGenerator::backNumberGenerator)
+                .create())
+            .collect(Collectors.toList());
+    }
+
+    public static List<Player> getPlayersByTeam(Integer size, Integer teamId) {
+        var team = getTeamRecord(teamId);
+        var nameFaker = new Faker(Locale.JAPAN).name();
+
+        return IntStream.range(1, size)
+            .mapToObj(i -> Instancio.of(Player.class)
+                .generate(field("id"), gen -> gen.ints().range(1, 1024))
+                .set(field("team"), team)
                 .set(field("name"), nameFaker.fullName())
                 .supply(field("backNumber"), DummyDataGenerator::backNumberGenerator)
                 .create())

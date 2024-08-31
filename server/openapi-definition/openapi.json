@@ -211,6 +211,37 @@
           }
         }
       }
+    },
+    "/api/v1/teams/{id}/players" : {
+      "get" : {
+        "tags" : [ "BMS basic API" ],
+        "summary" : "Return players of the team",
+        "description" : "Return players of the team",
+        "parameters" : [ {
+          "name" : "id",
+          "in" : "path",
+          "required" : true,
+          "schema" : {
+            "format" : "int32",
+            "type" : "integer"
+          }
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "Return players of the team",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "type" : "array",
+                  "items" : {
+                    "$ref" : "#/components/schemas/Player"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
     }
   },
   "components" : {

@@ -70,7 +70,6 @@ public interface ExampleEndpointApi {
         description = "Return a team detail"
     )
     @Path("/teams/{id:\\d+}")
-
     @APIResponses(
         {
             @APIResponse(
@@ -84,6 +83,26 @@ public interface ExampleEndpointApi {
         }
     )
     Response detailTeamRecord(@PathParam("id") Integer teamId);
+
+    @GET
+    @Operation(
+        summary = "Return players of the team",
+        description = "Return players of the team"
+    )
+    @Path("/teams/{id:\\d+}/players")
+    @APIResponses(
+        {
+            @APIResponse(
+                responseCode = "200",
+                description = "Return players of the team",
+                content = @Content(
+                    mediaType = "application/json",
+                    schema = @Schema(type = SchemaType.ARRAY, implementation = Player.class)
+                )
+            )
+        }
+    )
+    Response listPlayersOfTheTeam(@PathParam("id") Integer teamId);
 
     @GET
     @Path("/players")
