@@ -72,25 +72,15 @@ jobs:
       - name: Build with Maven
         run: mvn -B package --file pom.xml -Dquarkus.container-image.registry=${{ env.REGISTRY }}
 
-      # Build and push Docker image with Buildx (don't push on PR)
-      # https://github.com/docker/build-push-action
-#      - name: Build and push Docker image
-#        id: build-and-push
-#        uses: docker/build-push-action@0565240e2d4ab88bba5387d719585280857ece09 # v5.0.0
-#        with:
-#          context: .
-#          push: ${{ github.event_name != 'pull_request' }}
-#          tags: ${{ steps.meta.outputs.tags }}
-#          labels: ${{ steps.meta.outputs.labels }}
-#          cache-from: type=gha
-#          cache-to: type=gha,mode=max
-
       - name: Push Docker image
+        # if: ${{ github.event_name != 'pull_request' }}
         run: |
           docker image ls
-          docker tag ${{ env.REGISTRY }}/runner/bms-openapi-server:1.0-SNAPSHOT ${{ env.REGISTRY }}/yuokada/quarkus-rest-client-example:latest
+          docker tag ${{ env.REGISTRY }}/runner/bms-openapi-server:1.0-SNAPSHOT ${{ env.REGISTRY }}/yuokada/quarkus-rest-client-example:server-latest
+          docker tag ${{ env.REGISTRY }}/runner/bms-openapi-client:1.0-SNAPSHOT ${{ env.REGISTRY }}/yuokada/quarkus-rest-client-example:client-latest
           docker image ls
-          docker push ${{ env.REGISTRY }}/yuokada/quarkus-rest-client-example
+          docker push ${{ env.REGISTRY }}/yuokada/quarkus-rest-client-example:server-latest
+          docker push ${{ env.REGISTRY }}/yuokada/quarkus-rest-client-example:client-latest
 
       # Sign the resulting Docker image digest except on PRs.
       # This will only write to the public Rekor transparency log when the Docker
