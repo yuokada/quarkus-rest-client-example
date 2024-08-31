@@ -2,30 +2,9 @@ package io.github.yuokada.rest.service;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
-public class Team {
-
-    public Integer id;
-    public String name;
-
-    @JsonProperty("url_path")
-    public String urlPath;
-
-    @JsonProperty("regulation_at_bats")
-    public Double regulationAtBats;
-
-    @Override
-    public String toString() {
-        return "Team{"
-                + "id="
-                + id
-                + ", name='"
-                + name
-                + '\''
-                + ", urlPath='"
-                + urlPath
-                + '\''
-                + ", regulationAtBats="
-                + regulationAtBats
-                + '}';
-    }
-}
+public record Team(
+    Integer id,
+    String name,
+    @JsonProperty("url_path") String urlPath,
+    @JsonProperty("regulation_at_bats") Double regulationAtBats
+) {}

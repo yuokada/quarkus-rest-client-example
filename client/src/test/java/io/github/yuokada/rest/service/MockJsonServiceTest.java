@@ -28,9 +28,9 @@ public class MockJsonServiceTest {
     public void testClient() {
         Team teams = mockJsonService.getTeamById(1);
         logger.info(teams);
-        assertNotNull(teams.urlPath);
-        assertNotNull(teams.regulationAtBats);
-        assertThat("size doesn't match", teams.id == 1);
+        assertNotNull(teams.urlPath());
+        assertNotNull(teams.regulationAtBats());
+        assertThat("size doesn't match", teams.id() == 1);
     }
 
     @Test
@@ -51,8 +51,8 @@ public class MockJsonServiceTest {
     public void testGameById() {
         Game game = mockJsonService.getGameById(1);
         logger.info(game);
-        logger.info(game.date);
-        assertEquals(1, game.id);
+        logger.info(game.date());
+        assertEquals(1, game.id());
     }
 
     @Test
@@ -60,8 +60,8 @@ public class MockJsonServiceTest {
         try {
             Game game = mockJsonService.getGameById(100000);
             logger.info(game);
-            logger.info(game.date);
-            assertEquals(1, game.id);
+            logger.info(game.date());
+            assertEquals(1, game.id());
         } catch (ClientWebApplicationException  e) {
             logger.error(e.getResponse().readEntity(String.class));
             logger.error(e.getMessage());
