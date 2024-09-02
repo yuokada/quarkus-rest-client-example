@@ -13,11 +13,42 @@ import java.util.stream.IntStream;
 import net.datafaker.Faker;
 import org.instancio.Assign;
 import org.instancio.Instancio;
+import org.instancio.Model;
 
 public class DummyDataGenerator {
 
     private static final Random gRandom = new Random();
     private static final Faker gFaker = new Faker();
+
+    private static Model<Player> providePlayerModel() {
+        return Instancio.of(Player.class)
+            .generate(field("id"), gen -> gen.ints().range(1, 1024))
+            .generate(field("team"), gen -> gen.oneOf(getTeamRecordList(6)))
+            .set(field("name"), gFaker.name().fullName())
+            .supply(field("backNumber"), DummyDataGenerator::backNumberGenerator)
+            .toModel();
+    }
+
+    public static List<Player> getPlayers(Set<Integer> teamIds) {
+        List<Team> records;
+        if (teamIds.isEmpty()) {
+            records = getTeamRecordList(6);
+        } else {
+            records = teamIds.stream().map(DummyDataGenerator::getTeamRecord)
+                .collect(Collectors.toList());
+        }
+        Model<Player> playerModel = providePlayerModel();
+        List<Player> players = Instancio.ofList(playerModel)
+            // .size(size)
+            .generate(field(Player::team), gen -> gen.oneOf(records))
+            .create();
+//        players = Instancio.of(playerModel)
+//            .generate(field(Player::team), gen -> gen.oneOf(records))
+//            .stream()
+//            .limit(size)
+//            .collect(Collectors.toList());
+        return players;
+    }
 
     public static List<Player> getPlayers(Integer size, Set<Integer> teamIds) {
         List<Team> records;
