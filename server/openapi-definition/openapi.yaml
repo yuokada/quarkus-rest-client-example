@@ -25,6 +25,7 @@ paths:
     get:
       tags:
       - BMS guest API
+      description: Test Players
       parameters:
       - name: team_ids
         in: query
@@ -56,6 +57,7 @@ paths:
     get:
       tags:
       - BMS guest API
+      description: Test Teams
       responses:
         "200":
           description: OK
@@ -69,6 +71,7 @@ paths:
     get:
       tags:
       - BMS basic API
+      description: Players
       parameters:
       - name: limit
         in: query
