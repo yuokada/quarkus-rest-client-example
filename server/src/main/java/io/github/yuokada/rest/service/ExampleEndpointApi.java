@@ -33,13 +33,18 @@ import org.jboss.resteasy.reactive.Separator;
 
 @Produces(MediaType.APPLICATION_JSON)
 @BasicAPI
-@SecuritySchemes(
-    {
-        @SecurityScheme(securitySchemeName = "basicAuth", type = SecuritySchemeType.HTTP, scheme = "basic"),
-        @SecurityScheme(securitySchemeName = "jwt token", type = SecuritySchemeType.APIKEY, in = SecuritySchemeIn.HEADER, scheme = "bearer", bearerFormat = "jwt")
-    }
-
-)
+@SecuritySchemes({
+  @SecurityScheme(
+      securitySchemeName = "basicAuth",
+      type = SecuritySchemeType.HTTP,
+      scheme = "basic"),
+  @SecurityScheme(
+      securitySchemeName = "jwt token",
+      type = SecuritySchemeType.APIKEY,
+      in = SecuritySchemeIn.HEADER,
+      scheme = "bearer",
+      bearerFormat = "jwt")
+})
 public interface ExampleEndpointApi {
 
     @GET

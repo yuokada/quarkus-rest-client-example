@@ -16,13 +16,18 @@ import org.eclipse.microprofile.openapi.annotations.security.SecuritySchemes;
 @ApplicationScoped
 @Path("/api/v1")
 @BasicAPI
-@SecuritySchemes(
-    {
-        @SecurityScheme(securitySchemeName = "basicAuth", type = SecuritySchemeType.HTTP, scheme = "basic"),
-        @SecurityScheme(securitySchemeName = "jwt token", type = SecuritySchemeType.APIKEY, in = SecuritySchemeIn.HEADER, scheme = "bearer", bearerFormat = "jwt")
-    }
-
-)
+@SecuritySchemes({
+  @SecurityScheme(
+      securitySchemeName = "basicAuth",
+      type = SecuritySchemeType.HTTP,
+      scheme = "basic"),
+  @SecurityScheme(
+      securitySchemeName = "jwt token",
+      type = SecuritySchemeType.APIKEY,
+      in = SecuritySchemeIn.HEADER,
+      scheme = "bearer",
+      bearerFormat = "jwt")
+})
 public class StubExampleEndpoint implements ExampleEndpointApi {
 
     @Override
