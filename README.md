@@ -30,7 +30,15 @@ This project is to leran how to define OpenAPI specification and generate REST c
 
    A runnable JAR (`quarkus-run.jar`) and its dependencies are produced in `server/target/quarkus-app/`. Add `-Dquarkus.package.type=uber-jar` if you need a single executable JAR.
 
-2. **Run the packaged JAR**
+2. **Build a fat (über) JAR**
+
+   ```shell
+   ./mvnw package -Dquarkus.package.type=uber-jar -pl server
+   ```
+
+   The resulting file `server/target/quarkus-rest-client-example-server-*-runner.jar` is self-contained and can be copied to any JVM 17 host without the accompanying `lib` directory.
+
+3. **Run the packaged JAR**
 
    ```shell
    java -jar server/target/quarkus-app/quarkus-run.jar
@@ -38,7 +46,7 @@ This project is to leran how to define OpenAPI specification and generate REST c
 
    If you produced an über-jar, start it with `java -jar server/target/*-runner.jar`.
 
-3. **Build container images**
+4. **Build container images**
 
    The `quarkus-container-image-jib` plugin lets you produce OCI images and push them to a registry. Provide `quarkus.container-image.*` properties in `application.properties` or via the command line.
 
@@ -47,7 +55,7 @@ This project is to leran how to define OpenAPI specification and generate REST c
    ./mvnw package -Dquarkus.container-image.build=true -Dquarkus.container-image.push=true -pl server
    ```
 
-4. **Optional native binary**
+5. **Optional native binary**
 
    With GraalVM or Mandrel configured, run `./mvnw package -Dnative -pl server` to produce a native executable and start it directly from `server/target/*-runner`.
 
