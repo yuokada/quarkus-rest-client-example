@@ -1,0 +1,306 @@
+{
+  "openapi" : "3.1.0",
+  "info" : {
+    "contact" : {
+      "email" : "contact@email.example.com",
+      "name" : "BMS administrator"
+    },
+    "description" : "Here is description of BMS API.",
+    "license" : {
+      "name" : "MIT License",
+      "url" : "https://opensource.org/licenses/MIT"
+    },
+    "title" : "BMS API Endpoints",
+    "version" : "0.1.0"
+  },
+  "tags" : [ {
+    "name" : "BMS basic API",
+    "description" : "BMS Common APIs for authenticated users"
+  }, {
+    "name" : "BMS guest API",
+    "description" : "API endpoints for guest users"
+  } ],
+  "servers" : [ {
+    "url" : "http://localhost:8888",
+    "description" : "Local server"
+  }, {
+    "url" : "http://192.168.0.119:8888",
+    "description" : "A remote server"
+  } ],
+  "components" : {
+    "securitySchemes" : {
+      "basicAuth" : {
+        "type" : "http",
+        "scheme" : "basic"
+      },
+      "jwt token" : {
+        "type" : "apiKey",
+        "in" : "header",
+        "scheme" : "bearer",
+        "bearerFormat" : "jwt"
+      }
+    },
+    "schemas" : {
+      "Player" : {
+        "type" : "object",
+        "properties" : {
+          "id" : {
+            "type" : "integer",
+            "format" : "int32"
+          },
+          "name" : {
+            "type" : "string"
+          },
+          "team" : {
+            "$ref" : "#/components/schemas/Team"
+          },
+          "backNumber" : {
+            "type" : "string"
+          }
+        }
+      },
+      "Team" : {
+        "type" : "object",
+        "properties" : {
+          "id" : {
+            "type" : "integer",
+            "format" : "int32"
+          },
+          "name" : {
+            "type" : "string"
+          },
+          "url_path" : {
+            "type" : "string",
+            "maxLength" : 32
+          },
+          "at_bats" : {
+            "type" : "number",
+            "format" : "double",
+            "maximum" : 5,
+            "minimum" : 0
+          }
+        }
+      }
+    }
+  },
+  "paths" : {
+    "/api/v1/guest/players" : {
+      "get" : {
+        "tags" : [ "BMS guest API" ],
+        "parameters" : [ {
+          "description" : "Filter with team ids",
+          "explode" : false,
+          "in" : "query",
+          "style" : "form",
+          "name" : "team_ids",
+          "schema" : {
+            "type" : "array",
+            "uniqueItems" : true,
+            "items" : {
+              "type" : "integer",
+              "format" : "int32"
+            }
+          }
+        }, {
+          "description" : "test header parameter",
+          "name" : "X-Foo",
+          "in" : "header",
+          "schema" : {
+            "type" : "string",
+            "default" : "default-foo-value"
+          }
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "Returns a list of players",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "type" : "array",
+                  "items" : {
+                    "$ref" : "#/components/schemas/Player"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "summary" : "Test Players"
+      }
+    },
+    "/api/v1/guest/teams" : {
+      "get" : {
+        "tags" : [ "BMS guest API" ],
+        "responses" : {
+          "200" : {
+            "description" : "OK",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "type" : "array",
+                  "items" : {
+                    "$ref" : "#/components/schemas/Team"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "summary" : "Test Teams"
+      }
+    },
+    "/api/v1/players" : {
+      "get" : {
+        "tags" : [ "BMS basic API" ],
+        "parameters" : [ {
+          "schema" : {
+            "type" : "number",
+            "default" : 50
+          },
+          "name" : "limit",
+          "in" : "query"
+        }, {
+          "schema" : {
+            "type" : "number"
+          },
+          "name" : "offset",
+          "in" : "query"
+        }, {
+          "description" : "filter with team ids",
+          "explode" : false,
+          "in" : "query",
+          "schema" : {
+            "type" : "array",
+            "items" : {
+              "type" : "integer",
+              "format" : "int32"
+            }
+          },
+          "style" : "form",
+          "name" : "team_ids"
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "Returns a list of players",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "type" : "array",
+                  "items" : {
+                    "$ref" : "#/components/schemas/Player"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "summary" : "Players"
+      }
+    },
+    "/api/v1/teams" : {
+      "get" : {
+        "summary" : "Return a list of teams",
+        "description" : "Return a list of teams",
+        "tags" : [ "BMS basic API" ],
+        "responses" : {
+          "200" : {
+            "description" : "Returns a list of teams",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "type" : "array",
+                  "items" : {
+                    "$ref" : "#/components/schemas/Team"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "security" : [ {
+          "basicAuth" : [ ]
+        }, {
+          "jwt token" : [ ]
+        } ]
+      }
+    },
+    "/api/v1/teams/{id}" : {
+      "get" : {
+        "summary" : "Return a team detail",
+        "description" : "Return a team detail",
+        "tags" : [ "BMS basic API" ],
+        "parameters" : [ {
+          "name" : "id",
+          "in" : "path",
+          "required" : true,
+          "schema" : {
+            "type" : "integer",
+            "format" : "int32"
+          }
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "Returns the detail of a team",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "type" : "object",
+                  "properties" : {
+                    "id" : {
+                      "type" : "integer",
+                      "format" : "int32"
+                    },
+                    "name" : {
+                      "type" : "string"
+                    },
+                    "url_path" : {
+                      "type" : "string",
+                      "maxLength" : 32
+                    },
+                    "at_bats" : {
+                      "type" : "number",
+                      "format" : "double",
+                      "maximum" : 5,
+                      "minimum" : 0
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/teams/{id}/players" : {
+      "get" : {
+        "summary" : "Return players of the team",
+        "description" : "Return players of the team",
+        "tags" : [ "BMS basic API" ],
+        "parameters" : [ {
+          "name" : "id",
+          "in" : "path",
+          "required" : true,
+          "schema" : {
+            "type" : "integer",
+            "format" : "int32"
+          }
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "Return players of the team",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "type" : "array",
+                  "items" : {
+                    "$ref" : "#/components/schemas/Player"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}
