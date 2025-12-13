@@ -2,36 +2,54 @@
 
 This project is to leran how to define OpenAPI specification and generate REST client using Quarkus.
 
-## Running the application in dev mode
+## Development Flow
 
-You can run your application in dev mode that enables live coding using:
+1. **Start the server in dev mode**
 
-```shell script
-./mvnw compile quarkus:dev
-```
+   ```shell
+   ./mvnw compile quarkus:dev -pl server
+   ```
 
-> **_NOTE:_**  Quarkus now ships with a Dev UI, which is available in dev mode only at http://localhost:8080/q/dev/.
+   Live Coding is enabled and the Dev UI is available at `http://localhost:8080/q/dev/`. When you need to refresh the OpenAPI document, launch the server on another port (for example, `-Dquarkus.http.port=8888`) and run `make download_openapi_yaml` to store the definition in `server/openapi-definition/openapi.yaml`, making it easy to compare with generated clients.
 
-## Packaging and running the application
+2. **Develop REST clients**
 
-The application can be packaged using:
+   After updating the server OpenAPI spec, run `./mvnw quarkus:generate-code -pl client` to regenerate the REST client stubs. Follow it with `./mvnw test -pl client` to execute unit and integration tests for the client and ensure that the generated code stays in sync.
 
-```shell script
-./mvnw package
-```
+3. **Shared tooling**
 
-It produces the `quarkus-run.jar` file in the `target/quarkus-app/` directory.
-Be aware that it’s not an _über-jar_ as the dependencies are copied into the `target/quarkus-app/lib/` directory.
+   Download the Java formatter via `make get_google_java_format`, then apply `make fix_import_only` or `make reformat_java_files` before submitting changes.
 
-The application is now runnable using `java -jar target/quarkus-app/quarkus-run.jar`.
+## Deploy and Run
 
-If you want to build an _über-jar_, execute the following command:
+1. **Package the server**
 
-```shell script
-./mvnw package -Dquarkus.package.type=uber-jar
-```
+   ```shell
+   ./mvnw package -pl server
+   ```
 
-The application, packaged as an _über-jar_, is now runnable using `java -jar target/*-runner.jar`.
+   A runnable JAR (`quarkus-run.jar`) and its dependencies are produced in `server/target/quarkus-app/`. Add `-Dquarkus.package.type=uber-jar` if you need a single executable JAR.
+
+2. **Run the packaged JAR**
+
+   ```shell
+   java -jar server/target/quarkus-app/quarkus-run.jar
+   ```
+
+   If you produced an über-jar, start it with `java -jar server/target/*-runner.jar`.
+
+3. **Build container images**
+
+   The `quarkus-container-image-jib` plugin lets you produce OCI images and push them to a registry. Provide `quarkus.container-image.*` properties in `application.properties` or via the command line.
+
+   ```shell
+   ./mvnw package -Dquarkus.container-image.build=true -pl server
+   ./mvnw package -Dquarkus.container-image.build=true -Dquarkus.container-image.push=true -pl server
+   ```
+
+4. **Optional native binary**
+
+   With GraalVM or Mandrel configured, run `./mvnw package -Dnative -pl server` to produce a native executable and start it directly from `server/target/*-runner`.
 
 
 ## Reference
